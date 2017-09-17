@@ -1,0 +1,9 @@
+##################################################################################
+# Cloudify Fabric built in types and plugins definitions.
+##################################################################################
+plugins:
+    fabric:
+        executor: central_deployment_agent
+        source: cloudify-fabric-plugin-1.5.zip
+        package_name: cloudify-fabric-plugin
+        package_version: '1.5'

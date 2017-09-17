@@ -1,0 +1,2 @@
+LS_LOG_DIR="{{ ctx.instance.runtime_properties.log_dir }}"
+LS_LOG_FILE="{{ ctx.instance.runtime_properties.log_dir }}/logstash.log"

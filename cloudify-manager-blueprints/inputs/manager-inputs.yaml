@@ -1,0 +1,522 @@
+inputs:
+
+  #############################
+  # Security Settings
+  #############################
+  ssl_enabled:
+    description: When enabled, the external REST communication will be performed over HTTPS
+    type: boolean
+    default: true
+
+  admin_username:
+    default: admin
+
+  admin_password:
+    description: Admin password. Will be generated during bootstrap if left empty
+    default: ''
+
+  insecure_endpoints_disabled:
+    description: Disables insecure REST endpoints
+    type: boolean
+    default: true
+
+  #################################
+  # REST Configuration
+  #################################
+  rest_host_external_endpoint_type:
+    default: public_ip
+
+  rest_host_internal_endpoint_type:
+    default: private_ip
+
+  rest_service_gunicorn_worker_count:
+    description: |
+      The number of worker processes for handling requests.
+      If the default value (0) is set, then min((2 * cpu_count + 1 processes), 12) will be used.
+    type: integer
+    default: 0
+
+  rest_service_gunicorn_max_requests:
+    description: |
+      The maximum number of requests a worker will process before restarting.
+      If this is set to zero then the automatic worker restarts are disabled.
+    type: integer
+    default: 1000
+
+  rest_service_log_level:
+    description: |
+      Logging level for the REST service. Defaults to 'INFO', as 'DEBUG' may end up
+      logging sensitive information.
+    type: string
+    default: INFO
+
+  rest_service_log_file_size:
+    description: |
+      The size, in MB, that the REST service log file may grow to before it's rotated.
+    type: integer
+    default: 100
+
+  rest_service_log_files_backup_count:
+    description: |
+      Number of historical log files to keep when rotating the REST service logs.
+    type: integer
+    default: 20
+
+  rest_service_min_available_memory_mb:
+    description: |
+      Minimum available memory for running list query on Manager host in MB.
+    type: integer
+    default: 256
+
+  #############################
+  # Bootstrap Validations
+  #############################
+  ignore_bootstrap_validations:
+    description: >
+      While validations will be performed, they will be ignored.
+    type: string
+    default: false
+
+  minimum_required_total_physical_memory_in_mb:
+    description: Minimum required physical memory on Manager host in MB.
+    type: integer
+    default: 3792
+
+  minimum_required_available_disk_space_in_gb:
+    description: Minimum required disk space on Manager host in GB.
+    type: integer
+    default: 5
+
+  #############################
+  # Execute Before Bootstrap
+  #############################
+  execute_before_bootstrap:
+    description: >
+      A list of commands or scripts to execute before bootstrapping.
+    default: []
+
+  #############################
+  # Manager Resources Package
+  #############################
+  manager_resources_package:
+    description: A URL to a tar files containing all of the manager's resources
+    type: string
+    default: http://10.84.20.62:8081/repository/cloudify-4.1-packages/cloudify-manager-resources_4.1-sp.tar.gz
+
+  manager_resources_package_checksum_file:
+    description: >
+      A URL to the Manager Resources Package md5 checksum file.
+      This defaults to an empty string, meaning that
+    type: string
+    default: ''
+
+  skip_checksum_validation:
+    description: Whether to skip md5 checksum validation or not
+    type: boolean
+    default: true
+
+  #############################
+  # Agent Packages
+  #############################
+
+  # Nginx, being the fileserver, also serves agent packages.
+  # The key names of the agents must be in the format: distro_release_agent
+  # as the key is what's used to name the file, which later allows our
+  # agent installer to identify it for your distro and release automatically.
+  agent_package_urls:
+    default:
+      ubuntu_trusty_agent: Ubuntu-trusty-agent_*.tar.gz
+      ubuntu_precise_agent: Ubuntu-precise-agent_*.tar.gz
+      centos_7x_agent: centos-Core-agent_*.tar.gz
+      centos_6x_agent: centos-Final-agent_*.tar.gz
+      redhat_7x_agent: redhat-Maipo-agent_*.tar.gz
+      redhat_6x_agent: redhat-Santiago-agent_*.tar.gz
+      cloudify_windows_agent: cloudify-windows-agent_*.exe
+
+  #############################
+  # Cloudify Modules
+  #############################
+  rest_service_rpm_source_url:
+    type: string
+    default: cloudify-rest-service-*.x86_64.rpm
+
+  management_worker_rpm_source_url:
+    type: string
+    default: cloudify-management-worker-*.x86_64.rpm
+
+  amqpinflux_rpm_source_url:
+    type: string
+    default: cloudify-amqp-influx-*.x86_64.rpm
+
+  cloudify_resources_url:
+    type: string
+    default: cloudify-manager-*.tar.gz
+
+  stage_source_url:
+    type: string
+    default: cloudify-stage-*.tgz
+
+  composer_source_url:
+    type: string
+    default: cloudify-blueprint-composer-*.tgz
+
+  # This is a Cloudify specific redistribution of Grafana.
+  grafana_source_url:
+    type: string
+    default: grafana-1.9.0.tgz
+
+  #############################
+  # External Components
+  #############################
+  pip_source_rpm_url:
+    type: string
+    default: python-pip-7.1.0-1.el7.noarch.rpm
+
+  java_source_url:
+    type: string
+    default: jre1.8.0_45-1.8.0_45-fcs.x86_64.rpm
+
+  erlang_source_url:
+    type: string
+    default: erlang-17.4-1.el6.x86_64.rpm
+
+  rabbitmq_source_url:
+    type: string
+    default: rabbitmq-server-3.5.3-1.noarch.rpm
+
+  libxslt_rpm_url:
+    type: string
+    default: libxslt-1.1.28-5.el7.x86_64.rpm
+
+  postgresql95_rpm_url:
+    type: string
+    default: postgresql95-9.5.3-2PGDG.rhel7.x86_64.rpm
+
+  postgresql95_contrib_rpm_url:
+    type: string
+    default: postgresql95-contrib-9.5.3-2PGDG.rhel7.x86_64.rpm
+
+  postgresql95_libs_rpm_url:
+    type: string
+    default: postgresql95-libs-9.5.3-2PGDG.rhel7.x86_64.rpm
+
+  postgresql95_server_rpm_url:
+    type: string
+    default: postgresql95-server-9.5.3-2PGDG.rhel7.x86_64.rpm
+
+  postgresql95_devel_rpm_url:
+    type: string
+    default: postgresql95-devel-9.5.3-2PGDG.rhel7.x86_64.rpm
+
+  postgresql_jdbc_driver_url:
+    type: string
+    default: postgresql-9.4.1212.jar
+
+  python_psycopg2_rpm_url:
+    type: string
+    default: python-psycopg2-2.5.1-3.el7.x86_64.rpm
+
+  logstash_source_url:
+    type: string
+    default: logstash-1.5.0-1.noarch.rpm
+
+  logstash_filter_json_encode_plugin_url:
+    description: logstash-filter-json_encode plugin location
+    type: string
+    default: logstash-filter-json_encode-0.1.5.gem
+
+  logstash_output_jdbc_plugin_url:
+    description: logstash-output-jdbc plugin location
+    type: string
+    default: logstash-output-jdbc-0.2.10.gem
+
+  nginx_source_url:
+    type: string
+    default: nginx-1.12.0-1.el7.ngx.x86_64.rpm
+
+  influxdb_source_url:
+    type: string
+    default: influxdb-0.8.8-1.x86_64.rpm
+
+  langohr_source_url:
+    type: string
+    default: langohr.jar
+
+  daemonize_source_url:
+    type: string
+    default: daemonize-1.7.3-7.el7.x86_64.rpm
+
+  riemann_source_url:
+    type: string
+    default: riemann-0.2.6-1.noarch.rpm
+
+  nodejs_source_url:
+    type: string
+    default: node-v4.4.5-linux-x64.tar.gz
+
+  #############################
+  # Consul Inputs
+  #############################
+
+  consul_package_url:
+    type: string
+    default: consul_0.7.2_linux_amd64.zip
+
+  #############################
+  # Syncthing Inputs
+  #############################
+
+  syncthing_package_url:
+    type: string
+    default: syncthing-linux-amd64-v0.14.5.tar.gz
+
+  #############################
+  # RabbitMQ Inputs
+  #############################
+
+  rabbitmq_events_queue_message_ttl:
+    description: >
+      Sets the number of milliseconds to wait before a message expires
+      in the events queue.
+      Not used if an external endpoint is used.
+    type: integer
+    default: 60000
+
+  rabbitmq_logs_queue_message_ttl:
+    description: >
+      Sets the number of milliseconds to wait before a message expires
+      in the logs queue.
+      Not used if an external endpoint is used.
+    type: integer
+    default: 60000
+
+  rabbitmq_metrics_queue_message_ttl:
+    description: >
+      Sets the number of milliseconds to wait before a message expires
+      in the metrics queues.
+      Not used if an external endpoint is used.
+    type: integer
+    default: 60000
+
+  rabbitmq_username:
+    description: >
+      Sets the username to use for clients such as celery to connect to the rabbitmq broker.
+      It is recommended that you set both the username and password to something reasonably secure.
+    type: string
+    default: cloudify
+
+  rabbitmq_password:
+    description: >
+      Sets the password to use for clients such as celery to connect to the rabbitmq broker.
+      It is recommended that you set both the username and password to something reasonably secure.
+    type: string
+    default: c10udify
+
+  # note that for each of the queue length limit properties, new messages
+  # will be queued in RabbitMQ and old messages will be deleted once the
+  # limit is reached!
+  # https://www.rabbitmq.com/maxlength.html
+  rabbitmq_events_queue_length_limit:
+    description: >
+      Sets the number of messages the events queue can hold.
+      Note this is NOT the message byte length!
+      Not used if an external endpoint is used.
+    type: integer
+    default: 1000000
+
+  rabbitmq_logs_queue_length_limit:
+    description: >
+      Sets the number of messages the logs queue can hold.
+      Note this is NOT the message byte length!
+      Not used if an external endpoint is used.
+    type: integer
+    default: 1000000
+
+  rabbitmq_metrics_queue_length_limit:
+    description: >
+      Sets the number of messages the metrics queues can hold.
+      This applies to both the queue that amqp-influx pulls from and
+      the ones Riemann pulls from.
+      Note this is NOT the message byte length!
+      Not used if an external endpoint is used.
+    type: integer
+    default: 1000000
+
+  rabbitmq_fd_limit:
+    description: >
+      Sets the File Descriptor limit for the rabbitmq user.
+      Not used if an external endpoint is used.
+    type: integer
+    default: 102400
+
+  #############################
+  # PostgreSQL Inputs
+  #############################
+  postgresql_db_name:
+    description: postgresql default db name
+    type: string
+    default: 'cloudify_db'
+
+  postgresql_host:
+    description: postgresql default host
+    type: string
+    default: 'localhost'
+
+  postgresql_username:
+    description: postgresql default username
+    type: string
+    default: 'cloudify'
+
+  postgresql_password:
+    description: postgresql default password
+    type: string
+    default: 'cloudify'
+
+  #############################
+  # LDAP Inputs
+  #############################
+  ldap_server:
+    description: LDAP server
+    type: string
+    default: ''
+  ldap_username:
+    description: LDAP admin username
+    type: string
+    default: ''
+  ldap_password:
+    description: LDAP admin password
+    type: string
+    default: ''
+  ldap_domain:
+    description: LDAP Domain
+    type: string
+    default: ''
+  ldap_is_active_directory:
+    description: >
+      True if Active Directory will be used as the LDAP authenticator
+    type: boolean
+    default: true
+  ldap_dn_extra:
+    description: >
+      Any extra LDAP information (separated by the `;` sign. e.g. a=1;b=2)
+    type: string
+    default: ''
+
+  #############################
+  # InfluxDB Inputs
+  #############################
+  influxdb_endpoint_ip:
+    description: >
+      An IP Endpoint of your InfluxDB Cluster.
+    type: string
+    default: ''
+
+  #############################
+  # Management Worker Inputs
+  #############################
+  management_worker_log_level:
+    description: >
+      Sets the logging level to use for the management workers. This affects the logging performed
+      by the manager during the execution of management tasks, such as deployment creation
+      and deployment deletion.
+      NOTE: specifying "debug" will result in considerable amount of logging activity. Consider
+      using "info" (or a more restrictive level) for production environments.
+    type: string
+    default: debug
+
+  management_worker_max_workers:
+    description: >
+      Max number of celery workers.
+    type: integer
+    default: 100
+
+  management_worker_min_workers:
+    description: >
+      Min number of celery workers.
+    type: integer
+    default: 2
+
+  workflow_task_retries:
+    description: >
+      The number of times a failed task will be retried on recoverable error.
+    type: integer
+    default: 60
+
+  workflow_task_retry_interval:
+    description: >
+      The interval between retry attempts in seconds.
+    type: integer
+    default: 15
+
+  #############################
+  # Dev Inputs
+  #############################
+
+  # For development purposes, you can use these, which will override the modules
+  # supplied within the rpm.
+  # These should be pip installable tar.gz files.
+
+  pip_constraints:
+    type: string
+    description: |
+      Constraints (in standard `pip` constraints format) to pass on to `pip`
+      when installing overlays (such as `rest_service_source_url`, `dsl_parser_source_url`
+      and so on). Example:
+
+      requests==2.13.0
+      requests-toolbelt==0.7.1
+    default: ''
+
+  cli_source_url:
+    type: string
+    default: ''
+
+  rest_service_source_url:
+    type: string
+    default: ''
+
+  dsl_parser_source_url:
+    type: string
+    default: ''
+
+  rest_client_source_url:
+    type: string
+    default: ''
+
+  plugins_common_source_url:
+    type: string
+    default: ''
+
+  script_plugin_source_url:
+    type: string
+    default: ''
+
+  amqpinflux_source_url:
+    type: string
+    default: ''
+
+  agent_source_url:
+    type: string
+    default: ''
+
+  sanity_app_source_url:
+    type: string
+    default: cloudify-hello-world-example-*.tar.gz
+
+  ###############################
+  # Images configuration
+  ###############################
+
+  set_manager_ip_on_boot:
+    description: >
+      Sets whether the first time the manager's VM is booted from a Cloudify manager image
+      its private IP will be propagated to all relevant configuration files.
+    default: false
+
+  ###############################
+  # Import Resolver Configuration
+  ###############################
+
+  import_resolver_rules:
+    default:
+      - {'http://10.84.20.62:8081/repository/cloudify-4.1-config': 'file:///opt/manager/resources/spec'}

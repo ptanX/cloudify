@@ -1,0 +1,19 @@
+# learning html_css_js
+https://www.html-5-tutorial.com/div-tag.htm
+https://www.w3schools.com/js/js_arithmetic.asp
+
+# Flask restful
+https://flask-restful.readthedocs.io/en/latest/
+
+# react js
+https://www.tutorialspoint.com/reactjs/reactjs_jsx.htm
+# cloudify workflow
+http://www.sreguide.com/2016/10/19/cloudify_run_workflow_00/
+https://github.com/petehunt/react-howto/blob/master/README-vi.md
+https://cdn.rawgit.com/petehouston/react-makes-you-sad/04b4e31729dc943a32460d48a2f633b7cddc893c/fatigue.svg
+
+(_storage_id integer PRIMARY KEY NOT NULL, id text NOT NULL, type text NOT NULL, username text NOT NULL, password text NOT NULL, vim_tenant text NOT NULL, domain_name text, auth_url text NOT NULL, region text NOT NULL, nova_url text NOT NULL, neutron_url text NOT NULL, keypair_name text NOT NULL, private_key_path text NOT NULL, network_name text NOT NULL,private_resource boolean NOT NULL, _tenant_id integer references tenants(id), _creator_id integer references users(id));
+GRANT ALL PRIVILEGES ON TABLE vims TO cloudify;
+create sequence vims__storage_id_seq;
+alter table vims alter _storage_id set default nextval('vims__storage_id_seq');
+GRANT USAGE, SELECT ON SEQUENCE vims__storage_id_seq TO cloudify;
