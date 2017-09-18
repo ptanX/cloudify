@@ -13,7 +13,11 @@ private_ip: ''
 ssh_user: ''
 
 # SSH port used to connect to the manager
+<<<<<<< HEAD
 #ssh_port: 22
+=======
+ssh_port: 
+>>>>>>> 415c29da3576f733ee5b0fcf40d91bdf885b96b5
 
 # SSH key path used to connect to the manager
 ssh_key_filename: ''
@@ -32,8 +36,13 @@ ssh_key_filename: ''
 # Username and password of the Cloudify administrator.
 # This user will also be included in the simple userstore repostiroty if the
 # simple userstore implementation is used.
+<<<<<<< HEAD
 #admin_username: 'admin'
 #admin_password: ''
+=======
+admin_username: ''
+admin_password: ''
+>>>>>>> 415c29da3576f733ee5b0fcf40d91bdf885b96b5
 
 #insecure_endpoints_disabled: true
 
