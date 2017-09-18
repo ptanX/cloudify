@@ -17,7 +17,6 @@ ssh_user: ''
 #ssh_port: 22
 =======
 ssh_port: 
->>>>>>> 415c29da3576f733ee5b0fcf40d91bdf885b96b5
 
 # SSH key path used to connect to the manager
 ssh_key_filename: ''
@@ -42,7 +41,6 @@ ssh_key_filename: ''
 =======
 admin_username: ''
 admin_password: ''
->>>>>>> 415c29da3576f733ee5b0fcf40d91bdf885b96b5
 
 #insecure_endpoints_disabled: true
 
