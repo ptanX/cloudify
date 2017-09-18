@@ -35,9 +35,6 @@ ssh_key_filename: ''
 # simple userstore implementation is used.
 #admin_username: 'admin'
 #admin_password: ''
-admin_username: ''
-admin_password: ''
-
 #insecure_endpoints_disabled: true
 
 #############################
